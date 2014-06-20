@@ -1,16 +1,18 @@
 assert = chai.assert
 
-describe 'deck', ->
+describe 'appView', ->
   deck = null
   hand = null
+  appView = null
 
   beforeEach ->
-    deck = new Deck()
-    hand = deck.dealPlayer()
+    appView = new AppView()
 
-  describe "deck constructor", ->
-    it "should create a card collection", ->
-      assert.strictEqual new Deck().length, 52
+  describe "New game button", ->
+    it "should restart the game", ->
+      oldModel = appView.model
+      appView.$el.find('.restart-button').trigger('click')
+      assert.notEqual(appView.model, oldModel)
 
   describe 'hit', ->
     it "should give the last card from the deck", ->
