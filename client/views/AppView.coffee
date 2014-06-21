@@ -1,10 +1,10 @@
 class window.AppView extends Backbone.View
 
   template: _.template '
-    <div class="status"></div>
-    <button class="hit-button">Hit</button> <button class="stand-button">Stand</button> <button class="restart-button">New game</button>
+    <button class="hit-button button glow">Hit</button> <button class="stand-button button glow">Stand</button> <button class="restart-button button glow">New game</button>
     <div class="player-hand-container"></div>
     <div class="dealer-hand-container"></div>
+    <h2 class="status"></h2>
   '
 
   events:
@@ -22,8 +22,8 @@ class window.AppView extends Backbone.View
     @model = new App()
 
     @model.get('playerHand').once 'endPlayer', =>
-      @$('.hit-button').attr('disabled', 'disabled');
-      @$('.stand-button').attr('disabled', 'disabled');
+      @$('.hit-button').attr('disabled', 'disabled')
+      @$('.stand-button').attr('disabled', 'disabled')
       @model.get('dealerHand').dealerPlay()
 
     @model.get('dealerHand').on 'endDealer', =>
@@ -31,11 +31,11 @@ class window.AppView extends Backbone.View
       dealerScore = @model.get('dealerHand').getOptimalScore()
 
       if (playerScore > 21) or (dealerScore > playerScore and dealerScore <= 21)
-        @$('.status').text('Dealer wins.');
+        @$('.status').text('Dealer wins.')
       else if dealerScore > 21 or playerScore > dealerScore
-        @$('.status').text('Player wins.');
+        @$('.status').text('Player wins.')
       else
-        @$('.status').text('Push.');
+        @$('.status').text('Push.')
 
     @render()
 

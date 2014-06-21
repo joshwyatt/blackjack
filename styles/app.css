@@ -1,10 +1,31 @@
+*, *:before, *:after {
+  -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+
+body {
+  background: url(../img/pool_table.png);
+  color: #fff;
+  color: rgba(255, 255, 255, 0.63);
+  font: 16px/1.5 Helvetica, Arial, sans-serif;
+  letter-spacing: 1px;
+}
+
 .card {
   float: left;
-  border: solid 1px black;
+  border: solid 3px black;
+  border: solid 3px rgba(0,0,0,0.9);
   width: 100px;
   border-radius: 5px;
   height: 140px;
   margin-right: 20px;
+}
+
+button {
+  border-radius: 5px;
+}
+
+h2 {
+  font-weight: normal;
 }
 
 .covered {
