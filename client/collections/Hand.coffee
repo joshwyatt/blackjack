@@ -18,9 +18,9 @@ class window.Hand extends Backbone.Collection
       memo or card.get('value') is 1
     , false
 
-    # numberOfAces = @reduce (memo, card) ->
-    #   ++memo if card.get('value') is 1
-    # , 0
+    numberOfAces = @reduce (memo, card) ->
+      ++memo if card.get('value') is 1
+    , 0
 
     score = @reduce (score, card) ->
       score + if card.get 'revealed' then card.get 'value' else 0
