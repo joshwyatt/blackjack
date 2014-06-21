@@ -1,6 +1,7 @@
 class window.AppView extends Backbone.View
 
   template: _.template '
+    <div class="status"></div>
     <button class="hit-button">Hit</button> <button class="stand-button">Stand</button> <button class="restart-button">New game</button>
     <div class="player-hand-container"></div>
     <div class="dealer-hand-container"></div>
@@ -27,11 +28,11 @@ class window.AppView extends Backbone.View
       playerScore = @model.get('playerHand').getOptimalScore()
       dealerScore = @model.get('dealerHand').getOptimalScore()
       if (playerScore > 21) or (dealerScore > playerScore and dealerScore <= 21)
-        console.log 'dealer wins'
+        @$('.status').text('Dealer wins.');
       else if dealerScore > 21 or playerScore > dealerScore
-        console.log 'player wins'
+        @$('.status').text('Player wins.');
       else
-        console.log 'push'
+        @$('.status').text('Push.');
 
     @render()
 
