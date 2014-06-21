@@ -8,7 +8,7 @@ class window.AppView extends Backbone.View
 
   events:
     "click .hit-button": -> @model.get('playerHand').hit()
-    "click .stand-button": -> @model.get('playerHand').stand()
+    "click .stand-button": -> @model.get('playerHand').endPlayer()
     "click .restart-button": ->
       @reset()
 
@@ -17,7 +17,9 @@ class window.AppView extends Backbone.View
 
   reset: ->
     @model = new App()
-    @model.get('playerHand').once 'stand', =>
+    @model.get('playerHand').once 'endPlayer', =>
+      @$('.hit-button').attr('disabled', true);
+      @$('.stand-button').attr('disabled', true);
       @model.get('dealerHand').dealerPlay()
     @render()
 

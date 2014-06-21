@@ -6,6 +6,8 @@ class window.Hand extends Backbone.Collection
 
   hit: ->
     @add(@deck.pop()).last()
+    if !@isDealer and @scores()[0] > 21
+      @trigger('endPlayer', @)
 
   scores: ->
     # The scores are an array of potential scores.
@@ -19,9 +21,9 @@ class window.Hand extends Backbone.Collection
     , 0
     if hasAce then [score, score + 10] else [score]
 
-  stand: ->
-    console.log "Called stand on playerHand"
-    @trigger('stand', @)
+  endPlayer: ->
+    console.log "Called endPlayer on playerHand"
+    @trigger('endPlayer', @)
 
   dealerScore: ->
     # The scores are an array of potential scores.
