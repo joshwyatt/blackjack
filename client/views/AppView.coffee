@@ -21,8 +21,8 @@ class window.AppView extends Backbone.View
   reset: ->
     @model = new App()
     @model.get('playerHand').once 'endPlayer', =>
-      @$('.hit-button').attr('disabled', true);
-      @$('.stand-button').attr('disabled', true);
+      @$('.hit-button').attr('disabled', 'disabled');
+      @$('.stand-button').attr('disabled', 'disabled');
       @model.get('dealerHand').dealerPlay()
     @model.get('dealerHand').on 'endDealer', =>
       playerScore = @model.get('playerHand').getOptimalScore()

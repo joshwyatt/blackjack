@@ -1,6 +1,6 @@
 assert = chai.assert
 
-describe 'appView', ->
+describe "appView", ->
   deck = null
   hand = null
   appView = null
@@ -11,15 +11,22 @@ describe 'appView', ->
   describe "New game button", ->
     it "should restart the game", ->
       oldModel = appView.model
-      appView.$el.find('.restart-button').trigger('click')
+      appView.$el.find(".restart-button").trigger("click")
       assert.notEqual(appView.model, oldModel)
 
-  describe 'hit', ->
-    it "should give the last card from the deck", ->
-      assert.strictEqual deck.length, 50
-      assert.strictEqual deck.last(), hand.hit()
-      assert.strictEqual deck.length, 49
-      hand.playable && (assert.strictEqual deck.last(), hand.hit())
-      hand.playable && (assert.strictEqual deck.length, 48)
+  describe "status", ->
+    it "should display the game result status", ->
+      appView.model.get("dealerHand").trigger("endDealer")
+      assert.deepEqual appView.$(".status").length, 1
 
+  describe "render", ->
+    it "should render two containers: 'playerHand' and 'dealerHand'", ->
+      assert.deepEqual appView.$('.player-hand-container').length, 1
+      assert.deepEqual appView.$('.dealer-hand-container').length, 1
+
+  describe "stand button", ->
+    it "should disable stand button after first click", ->
+      $standButton = appView.$(".stand-button")
+      $standButton.click()
+      assert.deepEqual $standButton.attr("disabled"), "disabled"
 
