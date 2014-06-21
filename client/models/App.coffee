@@ -2,6 +2,9 @@
 class window.App extends Backbone.Model
 
   initialize: ->
-    @set 'deck', deck = new Deck()
-    @set 'playerHand', deck.dealPlayer()
-    @set 'dealerHand', deck.dealDealer()
+    deck = new Deck()
+    @set 'deck', deck
+    @set 'player', new Player()
+    @set 'dealer', new Dealer()
+    @get('player').set 'hand', deck.dealPlayer()
+    @get('dealer').set 'hand', deck.dealDealer()

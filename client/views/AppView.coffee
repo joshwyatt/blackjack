@@ -2,16 +2,15 @@ class window.AppView extends Backbone.View
 
   template: _.template '
     <button class="hit-button button glow">Hit</button> <button class="stand-button button glow">Stand</button> <button class="restart-button button glow">New game</button>
-    <div class="player-hand-container"></div>
-    <div class="dealer-hand-container"></div>
+    <div class="player-container"></div>
+    <div class="dealer-container"></div>
     <h2 class="status"></h2>
   '
 
   events:
-    "click .hit-button": -> @model.get('playerHand').hit()
-    "click .stand-button": -> @model.get('playerHand').endPlayer()
-    "click .restart-button": ->
-      @reset()
+    "click .hit-button": -> @model.get('player').hit()
+    "click .stand-button": -> @model.get('player').end()
+    "click .restart-button": @reset
 
   # Only to be called the very first game
   initialize: ->
@@ -21,14 +20,14 @@ class window.AppView extends Backbone.View
   reset: ->
     @model = new App()
 
-    @model.get('playerHand').once 'endPlayer', =>
+    @model.get('player').once 'end', =>
       @$('.hit-button').attr('disabled', 'disabled')
       @$('.stand-button').attr('disabled', 'disabled')
-      @model.get('dealerHand').dealerPlay()
+      @model.get('dealer').play()
 
-    @model.get('dealerHand').on 'endDealer', =>
-      playerScore = @model.get('playerHand').getOptimalScore()
-      dealerScore = @model.get('dealerHand').getOptimalScore()
+    @model.get('dealer').on 'end', =>
+      playerScore = @model.get('player').get('hand').getOptimalScore()
+      dealerScore = @model.get('dealer').get('hand').getOptimalScore()
 
       if (playerScore > 21) or (dealerScore > playerScore and dealerScore <= 21)
         @$('.status').text('Dealer wins.')
@@ -42,5 +41,5 @@ class window.AppView extends Backbone.View
   render: ->
     @$el.children().detach()
     @$el.html @template()
-    @$('.player-hand-container').html new HandView(collection: @model.get 'playerHand').el
-    @$('.dealer-hand-container').html new HandView(collection: @model.get 'dealerHand').el
+    @$('.player-container').html new PlayerView(model: @model.get 'player').el
+    @$('.dealer-container').html new DealerView(model: @model.get 'dealer').el
