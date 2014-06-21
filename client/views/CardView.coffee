@@ -15,4 +15,4 @@ class window.CardView extends Backbone.View
     rank = @model.get('rankName').toString().toLowerCase()
     suit = @model.get('suitName').toLowerCase()
     @$el.attr('src', "img/cards/#{rank}-#{suit}.png")
-    @$el.addClass 'covered' unless @model.get 'revealed'
+    @$el.attr 'src', 'img/card-back.png' unless @model.get 'revealed'
