@@ -23,34 +23,28 @@ class window.Hand extends Backbone.Collection
 
   endPlayer: ->
     console.log "Called endPlayer on playerHand"
-    @trigger('endPlayer', @)
+    @trigger 'endPlayer', @
 
-  dealerScore: ->
-    # The scores are an array of potential scores.
-    # Usually, that array contains one element. That is the only score.
-    # when there is an ace, it offers you two scores - the original score, and score + 10.
+  getOptimalScore: ->
     score = @scores()
-    if score.length is 1
-      return score[0]
-    if score[1] > 21
-      return score[0]
-    else
+    if score[1] and score[1] <= 21
       return score[1]
+    else
+      return score[0]
 
   dealerPlay: ->
     console.log('Dealer is supposed to play')
     @at(0).flip()
 
-    score = @dealerScore()
+    score = @getOptimalScore()
 
     while score <= 16
       console.log score
       @hit()
-      score = @dealerScore()
+      score = @getOptimalScore()
 
+    @endDealer()
     console.log "outside #{score}"
 
-
-
-
-
+  endDealer: ->
+    @trigger 'endDealer', @

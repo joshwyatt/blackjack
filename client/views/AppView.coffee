@@ -12,15 +12,27 @@ class window.AppView extends Backbone.View
     "click .restart-button": ->
       @reset()
 
+  # Only to be called the very first game
   initialize: ->
     @reset()
 
+  # Call this to start a new game after the very first
   reset: ->
     @model = new App()
     @model.get('playerHand').once 'endPlayer', =>
       @$('.hit-button').attr('disabled', true);
       @$('.stand-button').attr('disabled', true);
       @model.get('dealerHand').dealerPlay()
+    @model.get('dealerHand').on 'endDealer', =>
+      playerScore = @model.get('playerHand').getOptimalScore()
+      dealerScore = @model.get('dealerHand').getOptimalScore()
+      if (playerScore > 21) or (dealerScore > playerScore and dealerScore <= 21)
+        console.log 'dealer wins'
+      else if dealerScore > 21 or playerScore > dealerScore
+        console.log 'player wins'
+      else
+        console.log 'push'
+
     @render()
 
   render: ->
